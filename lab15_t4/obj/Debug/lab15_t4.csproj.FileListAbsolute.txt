@@ -1,0 +1,7 @@
+C:\rofl\Lab15\lab15_t4\bin\Debug\lab15_t4.exe
+C:\rofl\Lab15\lab15_t4\bin\Debug\lab15_t4.pdb
+C:\rofl\Lab15\lab15_t4\obj\Debug\lab15_t4.csproj.AssemblyReference.cache
+C:\rofl\Lab15\lab15_t4\obj\Debug\lab15_t4.csproj.SuggestedBindingRedirects.cache
+C:\rofl\Lab15\lab15_t4\obj\Debug\lab15_t4.csproj.CoreCompileInputs.cache
+C:\rofl\Lab15\lab15_t4\obj\Debug\lab15_t4.exe
+C:\rofl\Lab15\lab15_t4\obj\Debug\lab15_t4.pdb
