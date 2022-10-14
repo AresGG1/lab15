@@ -18,7 +18,10 @@ namespace lab15._2
             int count = 0;
             foreach (var i in list)
             {
-                st += i.ToString() + ",";
+                if(count != 6)
+                    st += i.ToString() + ",";
+                else if (count == 6)
+                    st += i.ToString();
                 count++;
                 if (count == 7)
                 {
@@ -36,7 +39,8 @@ namespace lab15._2
             StreamReader reader = new StreamReader("..\\..\\task1.txt");
             string info = reader.ReadToEnd();
             reader.Close();
-            info = info.Remove('\n');
+            if (info.Contains("\n"))
+                info = info.Replace('\n', ',');
             info = info.Trim(',');
             var array = info.Split(',');
             List<int> list = new List<int>();

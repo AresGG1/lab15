@@ -1,0 +1,6 @@
+/home/drus/RiderProjects/lab15/Lab15_1/bin/Debug/Lab15_1.exe
+/home/drus/RiderProjects/lab15/Lab15_1/bin/Debug/Lab15_1.pdb
+/home/drus/RiderProjects/lab15/Lab15_1/obj/Debug/Lab15_1.csproj.AssemblyReference.cache
+/home/drus/RiderProjects/lab15/Lab15_1/obj/Debug/Lab15_1.csproj.CoreCompileInputs.cache
+/home/drus/RiderProjects/lab15/Lab15_1/obj/Debug/Lab15_1.exe
+/home/drus/RiderProjects/lab15/Lab15_1/obj/Debug/Lab15_1.pdb
