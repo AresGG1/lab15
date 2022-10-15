@@ -1,47 +1,50 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Lab15_1
 {
-    public class Node<T>
+    
+    public class DoubleNode<T>
     {
         public T data;
-        public Node<T> next = null;
+        public DoubleNode<T> next = null;
+        public DoubleNode<T> prev = null;
     }
-    public class SingleLinkedList<T>:IEnumerable<T>
+    
+    public class DoubleLinkedList<T>:IEnumerable<T>
     {
-        public Node<T> head;
-        public Node<T> last;
+        public DoubleNode<T> head;
+        public DoubleNode<T> last;
 
-        public SingleLinkedList()
+        public DoubleLinkedList()
         {
             
         }
-        public SingleLinkedList(IEnumerable<T> arr)
+        public DoubleLinkedList(IEnumerable<T> arr)
         {
-            Node<T> tmp = head;
+            DoubleNode<T> tmp = head;
             int count = 0;
             foreach (var elem in arr)
             {
                 if (count == 0)
                 {
-                    head = new Node<T> {data = elem};
+                    head = new DoubleNode<T> {data = elem};
                     count++;
                     tmp = head;
                     continue;
                 }
 
-                tmp.next = new Node<T> {data=elem };
+                tmp.next = new DoubleNode<T> {data=elem };
+                tmp.next.prev = tmp;
                 tmp = tmp.next;
                 count++;
             }
             SetLast();
         }
-
         public int Count()
         {
             var tmp = head;
@@ -54,28 +57,37 @@ namespace Lab15_1
             
             return count;
         }
-
+        
+        public void Sort()
+        {
+            var arr = new List<T>(this.ToArray());
+            arr.Sort();
+            FromArray(arr);
+            SetLast();
+        }
+        
         public void FromArray(IEnumerable<T> arr)
         {
-            Node<T> tmp = head;
+            DoubleNode<T> tmp = head;
             int count = 0;
             foreach (var elem in arr)
             {
                 if (count == 0)
                 {
-                    head = new Node<T> {data = elem};
+                    head = new DoubleNode<T> {data = elem};
                     count++;
                     tmp = head;
                     continue;
                 }
 
-                tmp.next = new Node<T> {data=elem };
+                tmp.next = new DoubleNode<T> {data=elem };
+                tmp.next.prev = tmp;
                 tmp = tmp.next;
                 count++;
             }
             SetLast();
         }
-
+        
         private T[] ToArray()
         {
             var arr = new T[this.Count()];
@@ -89,7 +101,6 @@ namespace Lab15_1
             }
             return arr;
         }
-        
         private void SetLast()
         {
             var tmp = head;
@@ -103,35 +114,57 @@ namespace Lab15_1
 
                 tmp = tmp.next;
             }
-        }
-        public void Show()
+        }   
+        
+        public void DeleteByInd(int id)
         {
-            foreach (var elem in this)
+            if (id == 0)
             {
-                Console.WriteLine(elem);
+                this.head = this.head.next;
+                this.head.prev = null;
+                this.head.next.prev = this.head;
+                return;
             }
-            Console.WriteLine("-------------");
-        }
-        public bool IsInList(T elem)
-        {
+            int count = 0;
             var tmp = this.head;
             while (tmp != null)
             {
-                if (EqualityComparer<T>.Default.Equals(tmp.data, elem))
-                    return true;
+                if (count == id - 1)
+                {
+                    var prev = tmp;
+                    tmp.next = tmp.next.next;
+                    if(tmp.next != null)
+                        tmp.next.prev = tmp;
+                    SetLast();
+                    break;
+                }
                 tmp = tmp.next;
+                count++;
             }
-
-            return false;
+            
         }
-
-        public void Clear() => head = null;
+        public void Append(T value)
+        {
+            var node = new DoubleNode<T>{data = value};
+            if (head != null)
+            {
+                last.next = node;
+                node.prev = last;
+                last = node;
+            }
+            else
+            {   
+                head = new DoubleNode<T> { data = value };
+                last = head;
+            }
+        }
         public void AppendPos(T value, int position)
         {
             if (position == 0)
             {
                 var currentFirst = this.head;
-                this.head = new Node<T> {data = value};
+                this.head = new DoubleNode<T> {data = value};
+                currentFirst.prev = head;
                 this.head.next = currentFirst;
                 return;
             }
@@ -147,32 +180,19 @@ namespace Lab15_1
                 if (count == position-1)
                 {
                     var next = tmp.next;
-                    var node = new Node<T> {data = value};
+                    var node = new DoubleNode<T> {data = value};
                     node.next = next;
+                    node.prev = tmp;
                     tmp.next = node;
                 }
                 tmp = tmp.next;
                 count++;
             }
         }
-        public void Append(T value)
-        {
-            var node = new Node<T>{data = value};
-            if (head != null)
-            {
-                last.next = node;
-                last = node;
-            }
-            else
-            {   
-                head = new Node<T> { data = value };
-                last = head;
-            }
-        }
 
         public IEnumerator<T> GetEnumerator()
         {
-            Node<T> current = head;
+            DoubleNode<T> current = head;
             while (current != null)
             {
                 yield return current.data;
@@ -184,34 +204,14 @@ namespace Lab15_1
         {
             return this.GetEnumerator();
         }
-
-        public void ReplaceByInd(int ind, T value)
+        public void Show()
         {
-            int count = 0;
-            var tmp = head;
-            while (tmp != null)
+            foreach (var elem in this)
             {
-                if (ind == count)
-                {
-                    tmp.data = value;
-                    break;
-                }
-                count++;
-                tmp = tmp.next;
+                Console.WriteLine(elem);
             }
+            Console.WriteLine("-------------");
         }
-        public void ReplaceAll(T oldValue,T value)
-        {
-            var tmp = head;
-            while (tmp != null)
-            {
-                if (EqualityComparer<T>.Default.Equals(tmp.data , oldValue))
-                    tmp.data = value;
-                
-                tmp = tmp.next;
-            }
-        }
-        
         public T this[int index]
         {
             get
@@ -245,30 +245,30 @@ namespace Lab15_1
                 throw new Exception("Index out of bounds !");
             }
         }
-        
-        public void DeleteByInd(int id)
+        public void Clear() => head = null;
+        public bool IsInList(T elem)
         {
-            if (id == 0)
-            {
-                this.head = this.head.next;
-                return;
-            }
-            int count = 0;
             var tmp = this.head;
             while (tmp != null)
             {
-                if (count == id - 1)
-                {
-                    tmp.next = tmp.next.next;
-                    break;
-                }
+                if (EqualityComparer<T>.Default.Equals(tmp.data, elem))
+                    return true;
                 tmp = tmp.next;
-                count++;
-                SetLast();
             }
-            
-        }
 
+            return false;
+        }
+        public void ReplaceAll(T oldValue,T value)
+        {
+            var tmp = head;
+            while (tmp != null)
+            {
+                if (EqualityComparer<T>.Default.Equals(tmp.data , oldValue))
+                    tmp.data = value;
+                
+                tmp = tmp.next;
+            }
+        }
         public void DeleteByValue(T value)
         {
             int count = 0;
@@ -285,7 +285,7 @@ namespace Lab15_1
                 SetLast();
             }
         }
-        public void DeleteAllByValue(T value)
+        public void DeleteByAllValue(T value)
         {
             int count = 0;
             var tmp = this.head;
@@ -303,10 +303,9 @@ namespace Lab15_1
                 SetLast();
             }
         }
-
         public void Write()
         {
-            string path = "..\\..\\task1.txt";
+            string path = "..\\..\\task1_2.txt";
             StreamWriter writer = new StreamWriter(path, false, Encoding.UTF8);
             string st = "";
             foreach (var elem in this)
