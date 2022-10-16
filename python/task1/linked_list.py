@@ -77,6 +77,8 @@ class LinkedList:
             tmp = tmp.next
 
     def insert_last(self, value):
+        if self.head == None:
+            self.head = Node(value)
         count = 0
         tmp = self.head
         while tmp:

@@ -315,7 +315,7 @@ namespace Lab15_1
             }
             writer.Write(st);
             writer.Close();
-            Console.WriteLine("Write success");
+            Console.WriteLine("Write success");     
         }
     }
 }

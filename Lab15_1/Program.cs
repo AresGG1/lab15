@@ -29,7 +29,7 @@ namespace Lab15_1
                     list.Show();
                     Console.WriteLine("Редагування елементів списку: ");
                     list[1] = new Company("IBM, 11010000, 1110");
-                    list.Show();
+                     list.Show();
                     Console.WriteLine("Перевірка на відсутність: ");
                     var cmp = new Company("IBM, 11010000, 1110");
                     Console.WriteLine(cmp.ToString() + "is in list? ");
