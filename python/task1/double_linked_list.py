@@ -56,11 +56,14 @@ class DoubleLinkedList:
             tmp = tmp.next
 
     def insert_first(self, value):
-        perv = self.head
+        if self.head == None:
+            self.head = DoubleNode(value)
+            return
+        prev = self.head
         hd = DoubleNode(value)
-        perv.perv = hd
+        prev.prev = hd
         self.head = hd
-        self.head.next = perv
+        self.head.next = prev
         self.head.prev = None
 
     def insert_pos(self, value, position):
@@ -107,7 +110,7 @@ class DoubleLinkedList:
             tmp = self.head
             while tmp.next:
                 tmp = tmp.next
-            tmp = None
+            tmp.prev.next = None
             return
 
         while tmp:
@@ -125,22 +128,32 @@ class DoubleLinkedList:
         tmp = self.head
         if tmp.data == value:
             self.head = self.head.next
+            self.head.prev = None
             return
+        count = 0
         while tmp:
-            if tmp.next.data == value:
-                tmp.next = tmp.next.next
+            if tmp.data == value:
+                self.delete(count)
                 return
             tmp = tmp.next
+            count += 1
 
     def delete_all_by_value(self, value):
         tmp = self.head
         if tmp.data == value:
             self.head = self.head.next
-            return
+            self.head.prev = None
+        tmp = self.head
+        count = 0
         while tmp:
-            if tmp.next.data == value:
-                tmp.next = tmp.next.next
+            if tmp.data == value:
+                self.delete(count)
+                count = 0
+                tmp = self.head
+                continue
             tmp = tmp.next
+            count += 1
+
     def change(self, value, index):
         count = 0
         tmp = self.head
@@ -166,8 +179,8 @@ class DoubleLinkedList:
             if option == "name":
                 if tmp.data.get_name() == value:
                     return tmp.data
-            if option == "budget":
-                if tmp.data.get_budget() == value:
+            if option == "universityName" or option == "university name":
+                if tmp.data.get_university_name() == value:
                     return tmp.data
             if option == "employees":
                 if tmp.data.get_employees() == value:
@@ -180,7 +193,7 @@ class DoubleLinkedList:
         for i in data:
             st += str(i)
             st += "\n"
-        fstream = open(file="task1_1.txt", mode="w")
+        fstream = open(file="task1_2.txt", mode="w")
         fstream.write(st)
         fstream.close()
         print('Write success')
@@ -191,6 +204,8 @@ if __name__ == "__main__":
     list.insert_last(11)
     list.insert_last(12)
     list.insert_last(13)
-    list.insert_pos(10, 1)
-    # list.delete(2)
+    list.insert_pos(10, 3)
+    list.insert_pos(10, 3)
+    list.delete_all_by_value(10)
+    # list.delete(3)
     list.show()

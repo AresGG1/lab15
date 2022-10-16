@@ -19,7 +19,7 @@ class CycleList:
             self.head = Node(value)
             return
         if self.head.next == None:
-            self.head.ntext = Node(value)
+            self.head.next = Node(value)
             self.head.prev = self.head.next
             self.head.next.next = self.head
             self.head.next.prev = self.head
@@ -69,7 +69,7 @@ if __name__ == "__main__":
     cycled1 = CycleList()
     cycled2 = CycleList()
     for i in range(10):
-        cycled1.append(Surnames.pop())  
+        cycled1.append(Surnames.pop())
         cycled2.append(Surnames.pop())
     for i in range(10):
         print(f"{cycled1.pop(random.randint(0,cycled1.count()-1))} VS {cycled2.pop(random.randint(0,cycled2.count()-1))}")

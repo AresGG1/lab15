@@ -13,7 +13,7 @@ class UniversityUnit:
         return self.__name
 
     def get_university_name(self):
-        return self.__budget
+        return self.__universityName
 
     def get_employees(self):
         return self.__employees
