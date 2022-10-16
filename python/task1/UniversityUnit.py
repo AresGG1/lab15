@@ -1,18 +1,18 @@
-class Company:
+class UniversityUnit:
 
     def __init__(self, data):
         dataArray = data.split(',')
         name = dataArray[0]
-        budget = dataArray[1]
+        universityName = dataArray[1]
         employees = dataArray[2]
         self.__name = name
-        self.__budget = int(budget)
+        self.__universityName = universityName
         self.__employees = int(employees)
 
     def get_name(self):
         return self.__name
 
-    def get_budget(self):
+    def get_university_name(self):
         return self.__budget
 
     def get_employees(self):
@@ -21,17 +21,17 @@ class Company:
     def set_name(self, name):
         self.__name = name
 
-    def set_budget(self, budget):
-        self.__budget = int(budget)
+    def set_university_name(self, universityName):
+        self.__universityName = universityName
 
     def set_employees(self, employees):
         self.__employees = int(employees)
 
     def __str__(self):
-        return f"{self.__name}, {self.__budget}, {self.__employees}"
+        return f"{self.__name}, {self.__universityName}, {self.__employees}"
 
     def __eq__(self, other):
-        if self.get_name() == other.get_name() and self.get_budget() == other.get_budget() and self.get_employees() == other.get_employees():
+        if self.get_name() == other.get_name() and self.get_university_name() == other.get_university_name() and self.get_employees() == other.get_employees():
             return True
         return False
 

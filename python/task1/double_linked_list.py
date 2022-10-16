@@ -1,11 +1,12 @@
-class Node:
+class DoubleNode:
 
     def __init__(self, data):
         self.data = data
         self.next = None
+        self.prev = None
 
 
-class LinkedList:
+class DoubleLinkedList:
 
     def __init__(self):
         self.head = None
@@ -25,10 +26,10 @@ class LinkedList:
         return array
 
     def get_from_array(self, array):
-        self.head = Node(array[0])
+        self.head = DoubleNode(array[0])
         tmp = self.head
         for i in range(1, len(array)):
-            tmp.next = Node(array[i])
+            tmp.next = DoubleNode(array[i])
             tmp = tmp.next
 
 
@@ -56,9 +57,11 @@ class LinkedList:
 
     def insert_first(self, value):
         perv = self.head
-        hd = Node(value)
+        hd = DoubleNode(value)
+        perv.perv = hd
         self.head = hd
         self.head.next = perv
+        self.head.prev = None
 
     def insert_pos(self, value, position):
         if(position == 0):
@@ -67,10 +70,12 @@ class LinkedList:
         count = 0
         tmp = self.head
         while tmp:
-            if position - 1  == count:
+            if position - 1 == count:
                 next = tmp.next
-                node = Node(value)
+                prev = tmp
+                node = DoubleNode(value)
                 node.next = next
+                node.prev = tmp
                 tmp.next = node
                 break
             count += 1
@@ -78,15 +83,15 @@ class LinkedList:
 
     def insert_last(self, value):
         if self.head == None:
-            self.head = Node(value)
+            self.head = DoubleNode(value)
+            return
         count = 0
         tmp = self.head
-        while tmp:
-            if count == self.count()-1:
-                tmp.next = Node(value)
-                break
-            count += 1
+        while tmp.next:
             tmp = tmp.next
+        prev = tmp
+        tmp.next = DoubleNode(value)
+        tmp.next.prev = tmp
 
     def clear(self):
         self.head = None
@@ -96,13 +101,22 @@ class LinkedList:
         tmp = self.head
         if index == 0:
             self.head = self.head.next
+            self.head.prev = None
             return
+        if index == self.count()-1:
+            tmp = self.head
+            while tmp.next:
+                tmp = tmp.next
+            tmp = None
+            return
+
         while tmp:
             if count == index-1:
                 before = tmp
                 after = tmp.next.next
                 tmp = before
                 tmp.next = after
+                tmp.next.prev = before
                 break
             tmp = tmp.next
             count += 1
@@ -173,14 +187,10 @@ class LinkedList:
 
 
 if __name__ == "__main__":
-    list = LinkedList()
-    head = Node(1)
-    list.head = head
-    list.head.next = Node(1)
-    list.change(1, 1)
-    list.change_all(1,2)
-    list.insert_last(5)
-    list.insert_last(0)
-    list.sort()
+    list = DoubleLinkedList()
+    list.insert_last(11)
+    list.insert_last(12)
+    list.insert_last(13)
+    list.insert_pos(10, 1)
+    # list.delete(2)
     list.show()
-    list.find()
